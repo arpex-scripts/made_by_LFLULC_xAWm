@@ -1,0 +1,181 @@
+-- Owner Username
+getgenv().Host = 'Scythex33333222'
+local Whitelist = {Host,'FoxFromPoland'}
+
+-- init
+if not game:IsLoaded() then
+    game.Loaded:Wait();
+end
+
+-- functions
+local function predictname(NameVariable)
+    local Table = game.Players:GetChildren()
+    for i,v in pairs(Table) do 
+        if string.find(string.lower(v.Name), string.lower(NameVariable)) then 
+            return v.Name 
+        elseif string.find(string.lower(v.DisplayName), string.lower(NameVariable)) then 
+            return v.Name 
+        end
+    end
+end
+
+local function say(msg)
+    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+end
+
+-- variables
+local active = true
+local players, replicatedStorage = game:GetService("Players"), game:GetService("ReplicatedStorage")
+local defaultChatSystemChatEvents = replicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
+local onMessageDoneFiltering = defaultChatSystemChatEvents:FindFirstChild("OnMessageDoneFiltering")
+local loopbringActive = false
+
+-- Main Commands To The AI Bot
+onMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
+    local speaker, message = players[messageData.FromSpeaker], messageData.Message
+
+    if not table.find(Whitelist,speaker.Name) then return end;
+
+    if string.match(message,"?test") then
+        local args = message:split(" ")
+        table.remove(args,1)
+        if not args[1] then
+            say('Testing [1]')
+        else
+            say('Testing [2]')
+        end
+    end
+
+    if string.match(message,"?chat") then
+        local Message = string.match(message,"?chat%s(.*)")
+        say(Message)
+    end
+
+    if message == "?tp" then
+        local Root = game.Players.LocalPlayer.Character.HumanoidRootPart;
+        local Target_Root = game.Players[Host].Character:WaitForChild("HumanoidRootPart");
+        Root.CFrame = Target_Root.CFrame
+    end
+
+    if message == "?reset" then
+        game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    end
+
+    if message == "?jump" then
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    end
+
+    if message == "?sit" then
+        game.Players.LocalPlayer.Character.Humanoid.Sit = true
+    end
+
+    if message == "?wave" then
+        game.Players:Chat("/e wave")
+    end
+
+    if message == "?laugh" then
+        game.Players:Chat("/e laugh")
+    end
+
+    if message == "?point" then
+        game.Players:Chat("/e point")
+    end
+
+    if message == "?d1" then
+        game.Players:Chat("/e dance1")
+    end
+
+    if message == "?d2" then
+        game.Players:Chat("/e dance2")
+    end
+
+    if message == "?d3" then
+        game.Players:Chat("/e dance3")
+    end
+
+    if message == "?find" then
+        say("📡[AI]📡: Loading = 73")
+        wait(0.35)
+        say("📡[AI]📡: Loading = 100")
+        wait(0.35)
+        say("📡[AI]📡: ✅Owner Found✅")
+    end
+
+    if message == "?cmds" then
+        say("📝COMMANDS📝: ?jump ?sit ?tp ?d1 ?d2 ?d3 ?wave ?point ?laugh ?reset ?korblox ?test ?find hi Who made you? shutdown kick +ws +jp load ?chat ?gravity ?loopbring ?unloopbring")
+        game.Players:Chat("/e cheer")
+        wait(0.60)
+        say("🖥Made by 'Scythex' - the host..🖥")
+    end
+
+    if message == "?korblox" then
+        say("Added Korblox to BOT, if it does not work please modify the username.")
+        game:GetService("Workspace").GytQMLdXHsPnCpIqjDYu["Left Leg"]:Destroy()
+    end
+
+    if message == "Hi" then
+        local Root = game.Players.LocalPlayer.Character.HumanoidRootPart;
+        local Target_Root = game.Players[Host].Character:WaitForChild("HumanoidRootPart");
+        Root.CFrame = Target_Root.CFrame
+        game.Players:Chat("/e wave")
+        say("Hello HOST/OWNER!")
+    end
+
+    if message == "+ws" then
+        say("Added +100 Walk Speed.")
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed + 100
+    end
+
+    if message == "+jp" then
+        say("Added +100 Jump Power.")
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = game.Players.LocalPlayer.Character.Humanoid.JumpPower + 100
+    end
+
+    if message == "?gravity" then
+        local args = message:split(" ")
+        local newGravity = tonumber(args[2])
+        if newGravity then
+            game.Workspace.Gravity = newGravity
+            say("Gravity set to "..newGravity)
+        else
+            say("Invalid gravity value.")
+        end
+    end
+
+    if message == "?loopbring" then
+        loopbringActive = true
+        while loopbringActive do
+            local Root = game.Players.LocalPlayer.Character.HumanoidRootPart;
+            local Target_Root = game.Players[Host].Character:WaitForChild("HumanoidRootPart");
+            Root.CFrame = Target_Root.CFrame
+            wait(0.1)
+        end
+    end
+
+    if message == "?unloopbring" then
+        loopbringActive = false
+        say("Loopbring deactivated.")
+    end
+
+    if message == "kick" then
+        game.Players.LocalPlayer:Kick()
+    end
+
+    if message == "shutdown" then
+        game.Players.LocalPlayer:Kick()
+    end
+
+    if message == "load" then
+        say("💾==AI_Loaded==💾")
+        game.Players:Chat("/e cheer")
+        wait(1)
+        say("To see commands just say { ?cmds } to view commands or view them through the script.")
+    end
+
+    if message == "Who made you?" then
+        say("🔨AI BOT Script Made By LFLULC_MEPLS🔨")
+        game.Players:Chat("/e cheer")
+        wait(0.50)
+        say("⭐️ Current Script Version: Private V3.4 ⭐️")
+    end
+end)
