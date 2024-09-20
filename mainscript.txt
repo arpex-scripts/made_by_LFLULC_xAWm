@@ -1,6 +1,6 @@
 -- Owner Username
-getgenv().Host = 'Scythex33333222'
-local Whitelist = {Host,'FoxFromPoland'}
+getgenv().Host = 'scythex33333222'
+local Whitelist = {Host,'21343'}
 
 -- init
 if not game:IsLoaded() then
